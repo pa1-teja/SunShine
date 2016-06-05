@@ -1,10 +1,14 @@
 package com.example.pavan.sunshine;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,9 +42,12 @@ import java.util.Arrays;
 public class ForecastFragment extends Fragment {
 
     private final String LOG_TAG = getClass().getSimpleName();
-
     protected ArrayAdapter<String> mForecastAdapter;
     java.util.List<String> weekForecast = new ArrayList<>();
+    private SharedPreferences locationPref;
+    private String locationPrefValue;
+    private ShareActionProvider shareActionProvider;
+    private MenuItem shareItem;
 
     public ForecastFragment() {
     }
@@ -46,7 +55,10 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.forecastfragment, menu);
+
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -54,11 +66,16 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_refresh) {
-            new FetchWeatherTask().execute("94043");
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     @Override
@@ -67,24 +84,34 @@ public class ForecastFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
+    private void updateWeather() {
+        locationPref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        locationPrefValue = locationPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        Log.v(LOG_TAG, "location pref value : " + locationPrefValue);
+        new FetchWeatherTask().execute(locationPrefValue);
+    }
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-        String[] forecastEntry = {"Today-Sunny-88/63", "Tomorrow- Foggy-70/46", "Weds-CLouds-72/63",
-                "Thurs-Rainy-64/51", "Fri-Foggy-70/46", "Sat-Sunny-75/68"};
 
-        if (weekForecast != null || !weekForecast.isEmpty())
-            weekForecast.addAll(Arrays.asList(forecastEntry));
-
-        mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textView, weekForecast);
+        mForecastAdapter = new ArrayAdapter(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_textView, new ArrayList<String>());
 
         ListView mForecastListView = (ListView) rootView.findViewById(R.id.listView_forecast);
 
         mForecastListView.setAdapter(mForecastAdapter);
 
+        mForecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), DetailActivity.class);
+                intent.putExtra("weather", mForecastAdapter.getItem(position));
+                Toast.makeText(getContext(), mForecastAdapter.getItem(position), Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
@@ -207,8 +234,22 @@ public class ForecastFragment extends Fragment {
          */
         private String formatHighLows(double high, double low) {
             // For presentation, assume the user doesn't care about tenths of a degree.
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+            String unitType = sharedPreferences.getString(getString(R.string.pref_temperature_key), getString(R.string.pref_temperature_unit_metric));
+
+            if (unitType.equals(getString(R.string.pref_temperature_unit_imperial))) {
+
+                high = (high * 1.8) + 32;
+                low = (low * 1.8) + 32;
+            } else if (!unitType.equals(getString(R.string.pref_temperature_unit_metric)))
+                Log.d(LOG_TAG, "Unit type not found : " + unitType);
+
+
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
+
 
             String highLowStr = roundedHigh + "/" + roundedLow;
             return highLowStr;
