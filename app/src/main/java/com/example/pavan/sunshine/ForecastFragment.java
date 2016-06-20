@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -93,19 +94,23 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Add this line in order for this fragment to handle menu events.
         setHasOptionsMenu(true);
     }
 
 
+    // since we read the location when we create the loader, all we need to do is restart things
     void onLocationChanged() {
+        Log.e(LOG_TAG, "onLocationChanged() invoked");
         updateWeather();
         getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }
 
     private void updateWeather() {
+        Log.e(LOG_TAG, "updateWeather() invoked");
         FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
         String location = Utility.getPreferredLocation(getActivity());
-        weatherTask.execute(location);
+        weatherTask.execute(location.trim());
     }
 
 
@@ -118,6 +123,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
 
         // Get a reference to the ListView, and attach this adapter to it.
         ListView listView = (ListView) rootView.findViewById(R.id.listView_forecast);
@@ -134,7 +140,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                     String locationSetting = Utility.getPreferredLocation(getContext());
 
                     Intent intent = new Intent(getActivity(), DetailActivity.class)
-                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting, cursor.getLong(COL_WEATHER_DATE)));
+                            .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,
+                                    cursor.getLong(COL_WEATHER_DATE)));
                     startActivity(intent);
                 }
             }
