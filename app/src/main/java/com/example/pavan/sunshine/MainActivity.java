@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     private final String FORECASTFRAGMENT_TAG = "FFTAG";
+    private final String DETAILFRAGMENT_TAG = "DFTAG";
 
     private String mLocation;
 
