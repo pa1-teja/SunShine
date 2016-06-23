@@ -2,6 +2,7 @@ package com.example.pavan.sunshine;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import com.example.pavan.sunshine.data.WeatherContract;
  */
 public class DetailActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    static final String DETAIL_URI = "URI";
     private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
     private static final int DETAIL_LOADER = 0;
     private static final String[] DETAIL_COLUMNS = {
@@ -57,6 +59,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     private static final int COL_WEATHER_DEGREES = 8;
     private static final int COL_WEATHER_CONDITION_ID = 9;
     private final String LOG_TAG = getClass().getSimpleName();
+    private Uri mUri;
     private ImageView mIconView;
     private TextView mFriendlyDateView;
     private TextView mDateView;
@@ -111,6 +114,11 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Bundle arguments = getArguments();
+        if (arguments != null)
+            mUri = arguments.getParcelable(DetailActivityFragment.DETAIL_URI);
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
@@ -130,19 +138,19 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.v(LOG_TAG, "In onCreateLoader");
-        Intent intent = getActivity().getIntent();
-        if (intent == null)
-            return null;
 
+        if (mUri != null)
         // Now create a return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.
-        return new CursorLoader(getActivity(),
-                intent.getData(),
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
                 DETAIL_COLUMNS,
                 null,
                 null,
                 null
         );
+        return null;
     }
 
 
@@ -201,6 +209,16 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
     }
 
+    void onLocationChanged(String newLocation) {
+        // replace the uri, since the location has changed
+        Uri uri = mUri;
+        if (uri != null) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updateUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            mUri = updateUri;
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
+    }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
