@@ -119,6 +119,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         if (arguments != null)
             mUri = arguments.getParcelable(DetailActivityFragment.DETAIL_URI);
 
+
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
         mIconView = (ImageView) rootView.findViewById(R.id.detail_icon);
@@ -140,7 +141,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         Log.v(LOG_TAG, "In onCreateLoader");
 
         if (mUri != null)
-        // Now create a return a CursorLoader that will take care of
+            // Now create and return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.
             return new CursorLoader(
                     getActivity(),
@@ -163,13 +164,14 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
 
             // Use weather art image
-            mIconView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherId));
+            mIconView.setImageResource(Utility
+                    .getArtResourceForWeatherCondition(weatherId));
 
 
             // Read date from cursor and update views for day of week and date.
             long date = data.getLong(COL_WEATHER_DATE);
-            String friendlyDateText = Utility.getDayName(getContext(), date);
-            String dateText = Utility.getFormattedMonthDay(getContext(), date);
+            String friendlyDateText = Utility.getDayName(getActivity(), date);
+            String dateText = Utility.getFormattedMonthDay(getActivity(), date);
             mFriendlyDateView.setText(friendlyDateText);
             mDateView.setText(dateText);
 
@@ -178,7 +180,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             mDescriptionView.setText(description);
 
             // Read high  temperature from cursor and update view
-            boolean isMetric = Utility.isMetric(getContext());
+            boolean isMetric = Utility.isMetric(getActivity());
 
             double high = data.getDouble(COL_WEATHER_MAX_TEMP);
             String highString = Utility.formatTemperature(getContext(), high, isMetric);
@@ -191,12 +193,17 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
             // Read humidity from cursor and update view.
             float humidity = data.getFloat(COL_WEATHER_HUMIDITY);
-            mHumidityView.setText(getActivity().getString(R.string.format_humidity, humidity));
+            mHumidityView.setText(getActivity().getString(R.string.format_humidity,
+                    humidity));
 
             // Read wind speed and direction from the cursor and update view
             float windSpeedStr = data.getFloat(COL_WEATHER_WIND_SPEED);
             float windDirStr = data.getFloat(COL_WEATHER_DEGREES);
             mWindView.setText(Utility.getFormattedWind(getActivity(), windSpeedStr, windDirStr));
+
+            // Read pressure from cursor and update view.
+            float pressure = data.getFloat(COL_WEATHER_PRESSURE);
+            mPressureView.setText(getActivity().getString(R.string.format_pressure, pressure));
 
             // We still need this for the share intent
             mForecast = String.format("%s - %s - %s/%s", dateText, description, high, low);
@@ -222,6 +229,5 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }

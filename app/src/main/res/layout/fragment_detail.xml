@@ -38,7 +38,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
-
                 <TextView
                     android:id="@+id/detail_low_textView"
                     android:layout_width="wrap_content"
@@ -57,6 +56,7 @@
                     android:id="@+id/detail_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+
 
                 <TextView
                     android:id="@+id/detail_forecast_textView"
@@ -82,6 +82,5 @@
             android:id="@+id/detail_pressure_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 </ScrollView>
