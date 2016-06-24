@@ -159,14 +159,14 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         Log.v(LOG_TAG, "In onLoadFinished");
-        if (!data.moveToFirst() && data != null) {
+
+        if (data.moveToFirst() && data != null) {
             // Read weather condition ID from the cursor
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
 
             // Use weather art image
             mIconView.setImageResource(Utility
                     .getArtResourceForWeatherCondition(weatherId));
-
 
             // Read date from cursor and update views for day of week and date.
             long date = data.getLong(COL_WEATHER_DATE);
@@ -193,8 +193,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
             // Read humidity from cursor and update view.
             float humidity = data.getFloat(COL_WEATHER_HUMIDITY);
-            mHumidityView.setText(getActivity().getString(R.string.format_humidity,
-                    humidity));
+            mHumidityView.setText(getActivity().getString(R.string.format_humidity, humidity));
 
             // Read wind speed and direction from the cursor and update view
             float windSpeedStr = data.getFloat(COL_WEATHER_WIND_SPEED);
