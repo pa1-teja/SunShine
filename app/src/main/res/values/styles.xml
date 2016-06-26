@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ForecastListStyle">
+        <!--Here it's a stub. In screens of sufficient width, this style includes modifications
+            for two-pane layout-->
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
