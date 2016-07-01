@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.pavan.sunshine.sync.SunshineSyncAdapter;
+
 public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback {
 
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -35,17 +37,20 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
 
             if (savedInstanceState == null)
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.weather_detail_container, new ForecastFragment(), DETAILFRAGMENT_TAG)
+                        .replace(R.id.weather_detail_container, new DetailActivityFragment(),
+                                DETAILFRAGMENT_TAG)
                         .commit();
 
         } else {
             mTwoPane = false;
+            getSupportActionBar().setElevation(0f);
         }
 
         ForecastFragment forecastFragment = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
 
         forecastFragment.setUseTodayLayout(!mTwoPane);
 
+        SunshineSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override

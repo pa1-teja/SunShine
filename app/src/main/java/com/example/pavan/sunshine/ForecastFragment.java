@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.pavan.sunshine.data.WeatherContract;
+import com.example.pavan.sunshine.sync.SunshineSyncAdapter;
 
 /**
  * Created by pavan on 6/2/2016.
@@ -110,9 +111,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     private void updateWeather() {
         Log.e(LOG_TAG, "updateWeather() invoked");
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
-        String location = Utility.getPreferredLocation(getActivity());
-        weatherTask.execute(location.trim());
+
+        SunshineSyncAdapter.syncImmidiately(getActivity());
     }
 
 

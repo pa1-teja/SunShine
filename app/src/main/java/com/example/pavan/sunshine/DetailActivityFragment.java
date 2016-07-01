@@ -58,6 +58,8 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     private static final int COL_WEATHER_WIND_SPEED = 7;
     private static final int COL_WEATHER_DEGREES = 8;
     private static final int COL_WEATHER_CONDITION_ID = 9;
+
+
     private final String LOG_TAG = getClass().getSimpleName();
     private Uri mUri;
     private ImageView mIconView;
@@ -159,7 +161,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         Log.v(LOG_TAG, "In onLoadFinished");
-        if (!data.moveToFirst() && data != null) {
+        if (data.moveToFirst() && data != null) {
             // Read weather condition ID from the cursor
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
 
@@ -178,6 +180,9 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             // Read description from cursor and update view.
             String description = data.getString(COL_WEATHER_DESC);
             mDescriptionView.setText(description);
+
+            // For accessibility, add a content description to the icon field
+            mIconView.setContentDescription(description);
 
             // Read high  temperature from cursor and update view
             boolean isMetric = Utility.isMetric(getActivity());
