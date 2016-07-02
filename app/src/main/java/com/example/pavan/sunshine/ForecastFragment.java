@@ -1,5 +1,6 @@
 package com.example.pavan.sunshine;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.example.pavan.sunshine.sync.SunshineSyncAdapter;
  * Created by pavan on 6/2/2016.
  */
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
 
     // These indices are tied to FORECAST_COLUMNS. If FORECAST_COLUMNS changes, these must change.
     static final int COL_WEATHER_ID = 0;
@@ -85,8 +87,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
-            updateWeather();
+        if (id == R.id.action_maps) {
+            openPrefferedLocationInMap();
             return true;
         }
 
@@ -116,8 +118,6 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
 
-
-
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -144,7 +144,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                     String locationSetting = Utility.getPreferredLocation(getContext());
 
                     ((Callback) getActivity()).onItemSelected(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting,
-                                    cursor.getLong(COL_WEATHER_DATE)));
+                            cursor.getLong(COL_WEATHER_DATE)));
 
                 }
                 mPosition = position;
@@ -224,6 +224,33 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mUseTodayLayout = useTodayLayout;
         if (mForecastAdapter != null)
             mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+    }
+
+    private void openPrefferedLocationInMap() {
+
+        // Using the URI scheme for showing a location found on a map.  This super-handy
+        // intent can is detailed in the "Common Intents" page of Android's developer site:
+        // http://developer.android.com/guide/components/intents-common.html#Maps
+
+        if (null != mForecastAdapter) {
+            Cursor cursor = mForecastAdapter.getCursor();
+            if (cursor != null) {
+                cursor.moveToPosition(0);
+                String posLat = cursor.getString(COL_COORD_LAT);
+                String posLong = cursor.getString(COL_COORD_LONG);
+
+                Uri geoLocation = Uri.parse("geo:" + posLat + "," + posLong);
+
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.d(LOG_TAG, "Couldn't call " + geoLocation.toString() + ", no receiving apps installed!");
+                }
+            }
+        }
     }
 
     /**
