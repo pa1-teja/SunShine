@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditTextPreference
+    <com.example.pavan.sunshine.LocationEditTextPreference
+        android:defaultValue="@string/pref_location_default"
         android:inputType="text"
-        android:key="location"
+        android:key="@string/pref_location_key"
         android:singleLine="true"
-        android:title="Location" />
+        android:title="@string/pref_location_label"
+        custom:minLength="3" />
 
     <ListPreference
         android:defaultValue="@string/pref_temperature_unit_metric"
@@ -16,6 +19,13 @@
         android:key="@string/pref_temperature_key"
         android:selectable="true"
         android:title="@string/pref_temperature_header" />
+
+    <ListPreference
+        android:defaultValue="@string/pref_art_pack_sunshine"
+        android:entries="@array/pref_art_pack_options"
+        android:entryValues="@array/pref_art_pack_values"
+        android:key="@string/pref_art_pack_key"
+        android:title="@string/pref_art_pack_label" />
 
     <CheckBoxPreference
         android:defaultValue="@string/pref_enable_notifications_default"
