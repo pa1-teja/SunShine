@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.pavan.sunshine.MainActivity">
 
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
