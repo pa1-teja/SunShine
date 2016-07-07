@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-
 /**
  * Created by pavan on 6/13/2016.
  */
@@ -102,11 +100,11 @@ public class ForecastAdapter extends CursorAdapter {
                 break;
         }
 
-        Glide.with(mContext)
-                .load(Utility.getArtUrlForWeatherCondition(mContext, weatherId))
-                .error(fallbackIconId)
-                .crossFade()
-                .into(viewHolder.iconView);
+//        Glide.with(mContext)
+//                .load(Utility.getArtUrlForWeatherCondition(mContext, weatherId))
+//                .error(fallbackIconId)
+//                .crossFade()
+//                .into(viewHolder.iconView);
 
 
         // Read date from the cursor.

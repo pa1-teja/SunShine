@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.pavan.sunshine.data.WeatherContract;
 
 /**
@@ -170,11 +169,11 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
 
             // Use weather art image
-            Glide.with(this)
-                    .load(Utility.getArtUrlForWeatherCondition(getContext(), weatherId))
-                    .error(Utility.getArtResourceForWeatherCondition(weatherId))
-                    .crossFade()
-                    .into(mIconView);
+//            Glide.with(this)
+//                    .load(Utility.getArtUrlForWeatherCondition(getContext(), weatherId))
+//                    .error(Utility.getArtResourceForWeatherCondition(weatherId))
+//                    .crossFade()
+//                    .into(mIconView);
 
 
             // Read date from cursor and update views for day of week and date.
