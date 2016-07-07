@@ -206,7 +206,7 @@
 
 
     // TODO: Get the SenderID from the Developer Console
-    <string name="gcm_defaultSenderId" translatable="false"></string>
+    <!--<string name="gcm_defaultSenderId" translatable="false"></string>-->
 
     <!--For Google Places API Attribution-->
     <string name="attribution_text">Powered by Google</string>

@@ -99,29 +99,31 @@
             </intent-filter>
         </receiver>
 
+        <service
+            android:name="gcm.MyGcmListenerService"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="gcm.MyInstanceIDListenerService"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="gcm.RegistrationIntentService"
+            android:exported="false"></service>
+
+
     </application>
 
-    <service
-        android:name="gcm.MyGcmListenerService"
-        android:exported="false">
-
-        <intent-filter>
-            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-        </intent-filter>
-    </service>
-
-    <service
-        android:name="gcm.MyInstanceIDListenerService"
-        android:exported="false">
-
-        <intent-filter>
-            <action android:name="com.google.android.gms.iid.InstanceID" />
-        </intent-filter>
-    </service>
-
-    <service
-        android:name="gcm.RegistrationIntentService"
-        android:exported="false"></service>
 
     <permission
         android:name="com.myapp.LICENSE_TO_KILL"
