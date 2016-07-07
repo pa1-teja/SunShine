@@ -38,6 +38,7 @@ public class RegistrationIntentService extends IntentService {
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                 sendRegistrationToServer(token);
 
+
                 // You should store a boolean that indicates whether the generated token has been
                 // sent to your server. If the boolean is false, send the token to your server,
                 // otherwise your server should have already received the token.
