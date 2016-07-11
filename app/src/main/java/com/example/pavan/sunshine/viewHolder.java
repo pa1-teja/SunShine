@@ -7,6 +7,10 @@ import android.widget.TextView;
 /**
  * Created by pavan on 6/20/2016.
  */
+
+/**
+ * Cache of the children views for a forecast list item.
+ */
 public class ViewHolder {
     public final ImageView iconView;
     public final TextView dateView;
