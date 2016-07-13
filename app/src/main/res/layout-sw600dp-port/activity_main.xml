@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--Relativelayout is a nce choice when we're playing with elevations because it allows us to
+<?xml version="1.0" encoding="utf-8"?><!--RelativeLayout is a nce choice when we're playing with elevations because it allows us to
     flexibly place layouts all in thee same drawing layer -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,13 +37,16 @@
         android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
         android:paddingRight="@dimen/abc_list_item_padding_horizontal_material" />
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/weather_detail_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/sundhine_logo_imageView"
-        android:elevation="@dimen/appbar_elevation"
-        android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
-        android:paddingRight="@dimen/abc_list_item_padding_horizontal_material" />
+        android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
+        android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+        app:cardElevation="@dimen/detail_card_elevation"
+        app:cardPreventCornerOverlap="false" />
+
 
     <fragment
         android:id="@+id/fragment_forecast"
