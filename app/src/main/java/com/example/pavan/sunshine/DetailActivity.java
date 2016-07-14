@@ -25,6 +25,7 @@ public class DetailActivity extends AppCompatActivity {
 
             Bundle arguments = new Bundle();
             arguments.putParcelable(DetailActivityFragment.DETAIL_URI, getIntent().getData());
+            arguments.putBoolean(DetailActivityFragment.DETAIL_TRANSITION_ANIMATION, true);
 
             DetailActivityFragment detailActivityFragment = new DetailActivityFragment();
             detailActivityFragment.setArguments(arguments);
