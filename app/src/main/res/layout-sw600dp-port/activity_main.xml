@@ -16,7 +16,7 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <ImageView
-        android:id="@+id/sundhine_logo_imageView"
+        android:id="@+id/sunshine_logo_imageView"
         android:layout_width="match_parent"
         android:layout_height="?attr/listPreferredItemHeight"
         android:layout_below="@+id/toolbar"
@@ -32,7 +32,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/details_app_bar_overlap"
-        android:layout_below="@+id/sundhine_logo_imageView"
+        android:layout_below="@+id/sunshine_logo_imageView"
         android:elevation="@dimen/appbar_elevation"
         android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
         android:paddingRight="@dimen/abc_list_item_padding_horizontal_material" />
@@ -41,7 +41,7 @@
         android:id="@+id/weather_detail_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/sundhine_logo_imageView"
+        android:layout_below="@+id/sunshine_logo_imageView"
         android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
         android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
         app:cardElevation="@dimen/detail_card_elevation"

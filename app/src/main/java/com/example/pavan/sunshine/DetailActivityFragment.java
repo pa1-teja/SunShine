@@ -28,6 +28,7 @@ import com.example.pavan.sunshine.data.WeatherContract;
  * A placeholder fragment containing a simple view.
  */
 public class DetailActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
     // These indices are tied to DETAIL_COLUMNS.  If DETAIL_COLUMNS changes, these
     // must change.
     public static final int COL_WEATHER_ID = 0;
@@ -41,6 +42,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public static final int COL_WEATHER_DEGREES = 8;
     public static final int COL_WEATHER_CONDITION_ID = 9;
     static final String DETAIL_URI = "URI";
+    static final String DETAIL_TRANSITION_ANIMATION = "DTA";
     private static final String LOG_TAG = DetailActivityFragment.class.getSimpleName();
     private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
     private static final int DETAIL_LOADER = 0;
@@ -61,6 +63,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     };
     private String mForecast;
     private Uri mUri;
+    private boolean mTransitionAnimation;
     private ImageView mIconView;
     private TextView mDateView;
     private TextView mDescriptionView;
@@ -75,7 +78,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
 
     public DetailActivityFragment() {
         setHasOptionsMenu(true);
-    }
+        }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +87,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         Bundle arguments = getArguments();
         if (arguments != null) {
             mUri = arguments.getParcelable(DetailActivityFragment.DETAIL_URI);
+            mTransitionAnimation = arguments.getBoolean(DetailActivityFragment.DETAIL_TRANSITION_ANIMATION);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail_start, container, false);
@@ -99,13 +103,13 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         mPressureView = (TextView) rootView.findViewById(R.id.detail_pressure_textView);
         mPressureLabelView = (TextView) rootView.findViewById(R.id.detail_pressure_label_textView);
         return rootView;
-    }
+        }
 
     private void finishCreatingMenu(Menu menu) {
         // Retrieve the share menu item
         MenuItem menuItem = menu.findItem(R.id.share_menu_button);
         menuItem.setIntent(createShareForecastIntent());
-    }
+        }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -154,20 +158,21 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
                     null,
                     null
             );
+            }
+        ViewParent vp = getView().getParent();
+        if (vp instanceof CardView) {
+            ((View) vp).setVisibility(View.INVISIBLE);
         }
-        getView().setVisibility(View.INVISIBLE);
         return null;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
-
-            ViewParent viewParent = getView().getParent();
-
-            if (viewParent instanceof CardView)
-                ((View) viewParent).setVisibility(View.VISIBLE);
-
+            ViewParent vp = getView().getParent();
+            if (vp instanceof CardView) {
+                ((View) vp).setVisibility(View.VISIBLE);
+            }
 
             // Read weather condition ID from cursor
             int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
@@ -200,16 +205,16 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             mIconView.setContentDescription(getString(R.string.a11y_forecast_icon, description));
 
             // Read high temperature from cursor and update view
-            boolean isMetric = Utility.isMetric(getActivity());
+
 
             double high = data.getDouble(COL_WEATHER_MAX_TEMP);
-            String highString = Utility.formatTemperature(getActivity(), high, isMetric);
+            String highString = Utility.formatTemperature(getActivity(), high);
             mHighTempView.setText(highString);
             mHighTempView.setContentDescription(getString(R.string.a11y_high_temp, highString));
 
             // Read low temperature from cursor and update view
             double low = data.getDouble(COL_WEATHER_MIN_TEMP);
-            String lowString = Utility.formatTemperature(getActivity(), low, isMetric);
+            String lowString = Utility.formatTemperature(getActivity(), low);
             mLowTempView.setText(lowString);
             mLowTempView.setContentDescription(getString(R.string.a11y_low_temp, lowString));
 
@@ -235,12 +240,12 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             // We still need this for the share intent
             mForecast = String.format("%s - %s - %s/%s", dateText, description, high, low);
 
-        }
+            }
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         Toolbar toolbarView = (Toolbar) getView().findViewById(R.id.toolbar);
 
         // We need to start the enter transition after the data has loaded
-        if (activity instanceof DetailActivity) {
+        if (mTransitionAnimation) {
             activity.supportStartPostponedEnterTransition();
 
             if (null != toolbarView) {
@@ -263,5 +268,3 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
     public void onLoaderReset(Loader<Cursor> loader) {
     }
 }
-
-

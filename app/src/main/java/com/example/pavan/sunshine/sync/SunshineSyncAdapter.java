@@ -510,19 +510,17 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                     }
                     String title = context.getString(R.string.app_name);
 
-                    boolean isMetric = Utility.isMetric(context);
-
                     // Define the text of the forecast.
                     String contentText = String.format(context.getString(R.string.format_notification),
                             desc,
-                            Utility.formatTemperature(context, high,isMetric),
-                            Utility.formatTemperature(context, low,isMetric));
+                            Utility.formatTemperature(context, high),
+                            Utility.formatTemperature(context, low));
 
                     // NotificationCompatBuilder is a very convenient way to build backward-compatible
                     // notifications.  Just throw in some data.
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getContext())
-                                    .setColor(resources.getColor(R.color.sunshine_light_blue))
+                                    .setColor(resources.getColor(R.color.primary_light))
                                     .setSmallIcon(iconId)
                                     .setLargeIcon(largeIcon)
                                     .setContentTitle(title)
