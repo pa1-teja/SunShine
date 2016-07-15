@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:sharedElementTransitions="true"
-        tools:context="com.example.android.sunshine.app.ForecastFragment"
         tools:layout="@android:layout/list_content" />
 </LinearLayout>
 

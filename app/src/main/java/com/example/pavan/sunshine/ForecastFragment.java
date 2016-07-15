@@ -413,5 +413,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
          * DetailFragmentCallback for when an item has been selected.
          */
         void onItemSelected(Uri dateUri);
+
+        void onItemSelected(Uri contentUri, ForecastAdapter.ForecastAdapterViewHolder vh);
     }
 }
