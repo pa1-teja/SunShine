@@ -252,5 +252,6 @@
     <!-- Strings related to Muzei Source -->
     <string name="muzei_description">Today\'s weather</string>
 
+    <string name="gcm_defaultSenderId" translatable="false">udacity-sunshine-1364</string>
 
 </resources>

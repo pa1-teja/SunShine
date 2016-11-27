@@ -5,23 +5,26 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!--Permissions required by the sync adapter-->
+    <!-- Permissions required by the sync adapter -->
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
-    <!--Permission to check Internet connectivity state and to make our UI more friendly  -->
+    <!-- Permission to check Internet connectivity state and to make our UI more friendly -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
-    <!--Permissions required for Google Cloud Messaging-->
+    <!-- Permissions required for Google Cloud Messaging -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.example.pavan.sunshine.permission.C2D_MESSAGE" />
 
-    <!--Permissions required to use the Place Picker-->
+    <!-- Permissions required to use the Place Picker -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <permission
+        android:name="com.myapp.LICENSE_TO_KILL"
+        android:label="Licenced to Kill"
+        android:protectionLevel="dangerous" />
 
     <application
         android:allowBackup="true"
@@ -29,7 +32,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -59,7 +61,6 @@
                 android:value=".MainActivity" />
         </activity>
 
-
         <!-- Muzei Extension -->
         <service
             android:name=".muzei.WeatherMuzeiSource"
@@ -69,17 +70,16 @@
             <intent-filter>
                 <action android:name="com.google.android.apps.muzei.api.MuzeiArtSource" />
             </intent-filter>
+
             <meta-data
                 android:name="color"
                 android:value="@color/primary" />
         </service>
 
-
-        <!--Today Widget-->
+        <!-- Today Widget -->
         <receiver
             android:name=".widget.TodayWidgetProvider"
             android:label="@string/title_widget_today">
-
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.pavan.sunshine.ACTION_DATA_UPDATED" />
@@ -88,8 +88,8 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_today" />
-
         </receiver>
+
         <service android:name=".widget.TodayWidgetIntentService" />
 
         <!-- Detail Widget -->
@@ -101,6 +101,7 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.example.android.sunshine.app.ACTION_DATA_UPDATED" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_detail" />
@@ -117,37 +118,37 @@
             android:authorities="@string/content_authority"
             android:enabled="true"
             android:exported="true"
-            android:syncable="true"></provider>
+            android:syncable="true" />
 
-        <!--SyncAdapter's dummy authentication service-->
+        <!-- SyncAdapter's dummy authentication service -->
         <service android:name=".sync.SunshineAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
 
-
-        <!--The SyncAdapter service-->
+        <!-- The SyncAdapter service -->
         <service
             android:name=".sync.SunshineSyncService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <!--The Google Cloud Messaging receiver and services-->
+        <!-- The Google Cloud Messaging receiver and services -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND">
-
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -158,36 +159,24 @@
         <service
             android:name=".gcm.MyGcmListenerService"
             android:exported="false">
-
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
-
         <service
             android:name=".gcm.MyInstanceIDListenerService"
             android:exported="false">
-
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
-
         <service
             android:name=".gcm.RegistrationIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBzDZHo5HthbQSMDl3bbkxP2D7Ip6qLA2E" />
-
-
     </application>
-
-
-    <permission
-        android:name="com.myapp.LICENSE_TO_KILL"
-        android:label="Licenced to Kill"
-        android:protectionLevel="dangerous"></permission>
 
 </manifest>

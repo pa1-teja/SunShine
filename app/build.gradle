@@ -31,9 +31,10 @@ dependencies {
     compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:recyclerview-v7:23.2.0'
     compile 'com.google.android.apps.muzei:muzei-api:2.0'
-    compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    compile 'com.google.android.gms:play-services-gcm:+'
     compile 'com.google.android.gms:play-services-location:7.5.0'
     compile 'com.google.android.apps.muzei:muzei-api:2.0'
+    compile 'com.google.android.gms:play-services-wearable:10.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
