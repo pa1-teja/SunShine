@@ -254,4 +254,20 @@
 
     <string name="gcm_defaultSenderId" translatable="false">udacity-sunshine-1364</string>
 
+
+    <string-array name="colors_array">
+        <item name="black">Black</item>
+        <item name="white">White</item>
+        <item name="red">Red</item>
+        <item name="green">Green</item>
+        <item name="cyan">Cyan</item>
+        <item name="magenta">Magenta</item>
+    </string-array>
+
+    <string name="background_colour">Background Colour</string>
+    <string name="date_and_time_colour">Date and Time Colour</string>
+
+    <string name="pick_background_color"></string>
+    <string name="pick_date_time_colour"></string>
+
 </resources>

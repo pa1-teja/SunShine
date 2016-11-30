@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Permissions required for Google Cloud Messaging -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.example.pavan.sunshine.permission.C2D_MESSAGE" />
 
@@ -25,6 +24,14 @@
         android:name="com.myapp.LICENSE_TO_KILL"
         android:label="Licenced to Kill"
         android:protectionLevel="dangerous" />
+
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+
+    <!-- Required to act as a custom watch face. -->
+    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -59,6 +66,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+
+            <intent-filter>
+                <action android:name="com.example.pavan.sunshine.sunshinewear.CONFIG_DIGITAL" />
+
+                <category android:name="com.google.android.wearable.watchface.category.COMPANION_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <!-- Muzei Extension -->
@@ -177,6 +191,22 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBzDZHo5HthbQSMDl3bbkxP2D7Ip6qLA2E" />
+
+        <activity
+            android:name=".SunshineWearable.WearableConfigurationActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="com.example.pavan.sunshine.sunshinewear.CONFIG_DIGITAL" />
+
+                <category android:name="com.google.android.wearable.category.COMPANION_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>
