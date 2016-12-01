@@ -194,6 +194,7 @@
 
         <activity
             android:name=".SunshineWearable.WearableConfigurationActivity"
+            android:label="WatchFace Companion"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="com.example.pavan.sunshine.sunshinewear.CONFIG_DIGITAL" />

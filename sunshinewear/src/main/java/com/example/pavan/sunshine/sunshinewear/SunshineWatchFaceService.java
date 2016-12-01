@@ -188,6 +188,9 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
 
             if (visible) {
                 registerTimeZoneReceiver();
+                googleApiClient.connect();
+            } else {
+                unregisterTimeZoneReceiver();
                 releaseGoogleApiClient();
             }
             startTimerIfNecessary();
@@ -261,6 +264,19 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     String timeColor = dataMap.getString(WatchFaceSyncCommons.KEY_DATE_TIME_COLOUR);
                     watchFace.updateDateAndTimeColorTo(Color.parseColor(timeColor));
                 }
+            } else if (WatchFaceSyncCommons.HIGH_LOW_TEMP_PATH.equals(dataItem.getUri().getPath())) {
+                DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
+
+                if (dataMap.containsKey(WatchFaceSyncCommons.HIGH_TEMP_KEY)) {
+                    double highTemp = dataMap.getDouble(WatchFaceSyncCommons.HIGH_TEMP_KEY);
+                    Log.d(getClass().getSimpleName() + "===D", "highTemp : " + highTemp);
+                }
+
+                if (dataMap.containsKey(WatchFaceSyncCommons.LOW_TEMP_KEY)) {
+                    double lowTemp = dataMap.getDouble(WatchFaceSyncCommons.LOW_TEMP_KEY);
+                    Log.d(getClass().getSimpleName() + "===D", "lowTemp : " + lowTemp);
+                }
+
             }
         }
 
@@ -271,7 +287,10 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
 
         @Override
         public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-            Log.e(TAG, "connectionFailed GoogleAPI");
+            Log.e(TAG, "connectionFailed GoogleAPI : the reason : " + connectionResult);
+            Log.e(TAG, "error message : " + connectionResult.getErrorMessage());
+            Log.e(TAG, "error code : " + connectionResult.getErrorCode());
+            Log.e(TAG, "connection status : " + connectionResult.isSuccess());
         }
 
         @Override

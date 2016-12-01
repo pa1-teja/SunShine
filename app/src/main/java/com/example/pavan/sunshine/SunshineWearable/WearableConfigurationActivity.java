@@ -1,11 +1,10 @@
 package com.example.pavan.sunshine.SunshineWearable;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,20 +12,24 @@ import android.view.View;
 import com.example.pavan.sunshine.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
-public class WearableConfigurationActivity extends AppCompatActivity implements
+public class WearableConfigurationActivity extends Activity implements
         ColorChooserDialog.Listener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        ResultCallback<DataApi.DataItemResult> {
 
     private static final String TAG = "SimpleWatchface";
     private static final String TAG_BACKGROUND_COLOR_CHOOSER = "background_chooser";
     private static final String TAG_DATE_AND_TIME_COLOR_CHOOSER = "date_time_chooser";
 
-    private GoogleApiClient googleApiClient;
+
+    private static GoogleApiClient googleApiClient;
     private View backgroundColorImagePreview, dateAndTimeColorImagePreview;
     private WatchConfigurationPreferences watchConfigurationPreferences;
 
@@ -35,9 +38,9 @@ public class WearableConfigurationActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wearable_configuration);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -126,5 +129,11 @@ public class WearableConfigurationActivity extends AppCompatActivity implements
 
         PutDataRequest dataRequest = putDataMapRequest.asPutDataRequest();
         Wearable.DataApi.putDataItem(googleApiClient, dataRequest);
+    }
+
+
+    @Override
+    public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
+
     }
 }

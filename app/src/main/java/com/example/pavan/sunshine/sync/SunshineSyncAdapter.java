@@ -32,6 +32,7 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.example.pavan.sunshine.MainActivity;
 import com.example.pavan.sunshine.R;
+import com.example.pavan.sunshine.SunshineWearable.HighLowTempSender;
 import com.example.pavan.sunshine.Utility;
 import com.example.pavan.sunshine.data.WeatherContract;
 
@@ -79,9 +80,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final int INDEX_SHORT_DESC = 3;
     public final String LOG_TAG = SunshineSyncAdapter.class.getSimpleName();
 
+    public HighLowTempSender highLowTempSender;
 
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        highLowTempSender = new HighLowTempSender();
     }
 
     /**
@@ -508,6 +511,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 // we'll query our contentProvider, as always
                 Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
 
+
                 if (cursor.moveToFirst()) {
                     int weatherId = cursor.getInt(INDEX_WEATHER_ID);
                     double high = cursor.getDouble(INDEX_MAX_TEMP);
@@ -560,6 +564,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                                     .setLargeIcon(largeIcon)
                                     .setContentTitle(title)
                                     .setContentText(contentText);
+
+                    highLowTempSender.pickHighLowTemp(high, low, context);
 
 
                     // Make something interesting happen when the user clicks on the notification.

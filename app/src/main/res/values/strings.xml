@@ -267,7 +267,7 @@
     <string name="background_colour">Background Colour</string>
     <string name="date_and_time_colour">Date and Time Colour</string>
 
-    <string name="pick_background_color"></string>
-    <string name="pick_date_time_colour"></string>
+    <string name="pick_background_color">Pick background color</string>
+    <string name="pick_date_time_colour">Pick date and time color</string>
 
 </resources>

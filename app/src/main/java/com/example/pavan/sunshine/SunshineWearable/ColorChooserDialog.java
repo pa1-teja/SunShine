@@ -48,7 +48,7 @@ public class ColorChooserDialog extends DialogFragment {
         return builder.create();
     }
 
-    interface Listener {
+    public interface Listener {
         void onColorSelected(String color, String tag);
     }
 }
