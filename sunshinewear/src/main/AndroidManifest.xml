@@ -18,6 +18,21 @@
             android:name=".SunshineWatchFaceService"
             android:label="@string/my_digital_name"
             android:permission="android.permission.BIND_WALLPAPER">
+
+            <!-- companion configuration activity -->
+            <meta-data
+                android:name=
+                    "com.google.android.wearable.watchface.companionConfigurationAction"
+                android:value=
+                    "com.example.android.wearable.watchface.CONFIG_DIGITAL" />
+
+            <!-- wearable configuration activity -->
+            <meta-data
+                android:name=
+                    "com.google.android.wearable.watchface.wearableConfigurationAction"
+                android:value=
+                    "com.example.android.wearable.watchface.CONFIG_DIGITAL" />
+
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/watch_face" />
@@ -28,16 +43,24 @@
                 android:name="com.google.android.wearable.watchface.preview_circular"
                 android:resource="@drawable/preview_digital_circular" />
 
-            <meta-data
-                android:name="com.google.android.wearable.watchface.companionConfigurationAction"
-                android:value="com.example.pavan.sunshine.sunshinewear.CONFIG_DIGITAL" />
-
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
 
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name="com.example.pavan.sunshine.sunshinewear.WearableCompanion.WearableConfigurationActivity"
+            android:label="@string/digital_config_name">
+            <intent-filter>
+                <action android:name=
+                    "com.example.android.wearable.watchface.CONFIG_DIGITAL" />
+                <category android:name=
+                    "com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

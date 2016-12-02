@@ -1,5 +1,6 @@
 package com.example.pavan.sunshine.sunshinewear.WearableCompanion;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.example.pavan.sunshine.sunshinewear.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -39,9 +41,7 @@ public class WearableConfigurationActivity extends Activity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wearable_configuration);
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)

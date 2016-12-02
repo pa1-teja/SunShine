@@ -2,6 +2,7 @@
     <string name="app_name">SunshineWear</string>
     <string name="message">Watch face tapped</string>
     <string name="my_digital_name">Sunshine Watchface</string>
+    <string name="digital_config_name">Sunshine Config Activity</string>
 
     <string-array name="colors_array">
         <item name="black">Black</item>

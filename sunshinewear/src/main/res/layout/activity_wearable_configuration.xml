@@ -10,17 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.pavan.sunshine.sunshinewear.WearableCompanion.WearableConfigurationActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/MyActionBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="50dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
         android:divider="@drawable/delimiter"
         android:orientation="vertical"
         android:paddingEnd="16dp"
