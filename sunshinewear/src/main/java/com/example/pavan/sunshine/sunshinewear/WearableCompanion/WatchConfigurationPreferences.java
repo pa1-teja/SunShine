@@ -1,4 +1,4 @@
-package com.example.pavan.sunshine.SunshineWearable;
+package com.example.pavan.sunshine.sunshinewear.WearableCompanion;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -2,4 +2,6 @@
 <resources>
     <color name="background">#000000</color>
     <color name="digital_text">#ffffff</color>
+
+    <color name="preference_pressed">#55CCCCCC</color>
 </resources>

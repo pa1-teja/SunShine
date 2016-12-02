@@ -192,18 +192,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBzDZHo5HthbQSMDl3bbkxP2D7Ip6qLA2E" />
 
-        <activity
-            android:name=".SunshineWearable.WearableConfigurationActivity"
-            android:label="WatchFace Companion"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="com.example.pavan.sunshine.sunshinewear.CONFIG_DIGITAL" />
-
-                <category android:name="com.google.android.wearable.category.COMPANION_CONFIGURATION" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

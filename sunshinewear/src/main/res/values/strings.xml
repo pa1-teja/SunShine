@@ -2,4 +2,20 @@
     <string name="app_name">SunshineWear</string>
     <string name="message">Watch face tapped</string>
     <string name="my_digital_name">Sunshine Watchface</string>
+
+    <string-array name="colors_array">
+        <item name="black">Black</item>
+        <item name="white">White</item>
+        <item name="red">Red</item>
+        <item name="green">Green</item>
+        <item name="cyan">Cyan</item>
+        <item name="magenta">Magenta</item>
+    </string-array>
+
+    <string name="background_colour">Background Colour</string>
+    <string name="date_and_time_colour">Date and Time Colour</string>
+
+    <string name="pick_background_color">Pick background color</string>
+    <string name="pick_date_time_colour">Pick date and time color</string>
+
 </resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyActionBarStyle" parent="Theme.Wearable">
+        <item name="android:background">@color/dark_grey</item>
+        <item name="android:textColorPrimary">@color/black_54p</item>
+    </style>
+</resources>

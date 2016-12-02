@@ -1,4 +1,4 @@
-package com.example.pavan.sunshine.SunshineWearable;
+package com.example.pavan.sunshine.sunshinewear.WearableCompanion;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -7,7 +7,8 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import com.example.pavan.sunshine.R;
+import com.example.pavan.sunshine.sunshinewear.R;
+
 
 /**
  * Created by KVR on 11/29/2016.
