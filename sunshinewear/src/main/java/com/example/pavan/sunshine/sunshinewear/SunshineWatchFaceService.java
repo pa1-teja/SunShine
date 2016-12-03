@@ -247,6 +247,8 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         public void onConnected(@Nullable Bundle bundle) {
             Log.d(TAG, "connected GoogleAPI");
 
+            Log.d(TAG, "Bundle : " + bundle);
+
             Wearable.DataApi.addListener(googleApiClient, onDataChangedListener);
             Wearable.DataApi.getDataItems(googleApiClient).setResultCallback(onConnectedResultCallback);
         }

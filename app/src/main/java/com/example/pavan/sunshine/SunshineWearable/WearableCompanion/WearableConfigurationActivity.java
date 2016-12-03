@@ -1,16 +1,16 @@
-package com.example.pavan.sunshine.sunshinewear.WearableCompanion;
+package com.example.pavan.sunshine.SunshineWearable.WearableCompanion;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.pavan.sunshine.sunshinewear.R;
-import com.example.pavan.sunshine.sunshinewear.WatchFaceSyncCommons;
+import com.example.pavan.sunshine.R;
+import com.example.pavan.sunshine.SunshineWearable.WatchFaceSyncCommons;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -19,7 +19,7 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
-public class WearableConfigurationActivity extends Activity implements
+public class WearableConfigurationActivity extends AppCompatActivity implements
         ColorChooserDialog.Listener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -38,7 +38,6 @@ public class WearableConfigurationActivity extends Activity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wearable_configuration);
-
 
 
         googleApiClient = new GoogleApiClient.Builder(this)

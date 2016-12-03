@@ -66,14 +66,19 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
 
+        <activity
+            android:name="com.example.pavan.sunshine.SunshineWearable.WearableCompanion.WearableConfigurationActivity"
+            android:label="@string/wearable_activity_name">
             <intent-filter>
-                <action android:name="com.example.pavan.sunshine.sunshinewear.CONFIG_DIGITAL" />
+                <action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL" />
 
                 <category android:name="com.google.android.wearable.watchface.category.COMPANION_CONFIGURATION" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
 
         <!-- Muzei Extension -->
         <service
