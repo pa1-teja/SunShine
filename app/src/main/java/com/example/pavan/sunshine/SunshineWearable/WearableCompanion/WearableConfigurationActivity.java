@@ -13,8 +13,6 @@ import com.example.pavan.sunshine.R;
 import com.example.pavan.sunshine.SunshineWearable.WatchFaceSyncCommons;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -22,8 +20,7 @@ import com.google.android.gms.wearable.Wearable;
 public class WearableConfigurationActivity extends AppCompatActivity implements
         ColorChooserDialog.Listener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        ResultCallback<DataApi.DataItemResult> {
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "SimpleWatchface";
     private static final String TAG_BACKGROUND_COLOR_CHOOSER = "background_chooser";
@@ -129,9 +126,4 @@ public class WearableConfigurationActivity extends AppCompatActivity implements
         Wearable.DataApi.putDataItem(googleApiClient, dataRequest);
     }
 
-
-    @Override
-    public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
-
-    }
 }
