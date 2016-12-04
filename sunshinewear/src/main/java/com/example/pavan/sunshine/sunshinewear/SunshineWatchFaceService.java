@@ -20,6 +20,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -37,6 +39,7 @@ import android.view.SurfaceHolder;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -46,6 +49,7 @@ import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
 
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 
@@ -56,19 +60,17 @@ import java.util.concurrent.TimeUnit;
 public class SunshineWatchFaceService extends CanvasWatchFaceService {
     private static final Typeface NORMAL_TYPEFACE =
             Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
-
     private static final long TICK_PERIOD_MILLIS = TimeUnit.SECONDS.toMillis(1);
-
     /**
      * Update rate in milliseconds for interactive mode. We update once a second since seconds are
      * displayed in interactive mode.
      */
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
-
     /**
      * Handler message id for updating the time periodically in interactive mode.
      */
     private static final int MSG_UPDATE_TIME = 0;
+    private Bitmap bitmap;
 
     @Override
     public Engine onCreateEngine() {
@@ -102,6 +104,18 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         private static final String TAG = "SunshineEngine";
 
         private SunshineWatchFace watchFace;
+        private Handler timeTick;
+        private final Runnable timeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                onSecondTick();
+
+                if (isVisible() && !isInAmbientMode())
+                    timeTick.postDelayed(this, TICK_PERIOD_MILLIS);
+
+            }
+        };
+        private GoogleApiClient googleApiClient;
         private final DataApi.DataListener onDataChangedListener = new DataApi.DataListener() {
             @Override
             public void onDataChanged(DataEventBuffer dataEventBuffer) {
@@ -125,18 +139,6 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                 invalidateIfNecessary();
             }
         };
-        private Handler timeTick;
-        private final Runnable timeRunnable = new Runnable() {
-            @Override
-            public void run() {
-                onSecondTick();
-
-                if (isVisible() && !isInAmbientMode())
-                    timeTick.postDelayed(this, TICK_PERIOD_MILLIS);
-
-            }
-        };
-        private GoogleApiClient googleApiClient;
         private BroadcastReceiver timeZoneChangedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -266,21 +268,57 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     String timeColor = dataMap.getString(WatchFaceSyncCommons.KEY_DATE_TIME_COLOUR);
                     watchFace.updateDateAndTimeColorTo(Color.parseColor(timeColor));
                 }
-            } else if (WatchFaceSyncCommons.HIGH_LOW_TEMP_PATH.equals(dataItem.getUri().getPath())) {
+            }
+            if (WatchFaceSyncCommons.HIGH_LOW_TEMP_PATH.equals(dataItem.getUri().getPath())) {
                 DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
 
                 if (dataMap.containsKey(WatchFaceSyncCommons.HIGH_TEMP_KEY)) {
                     double highTemp = dataMap.getDouble(WatchFaceSyncCommons.HIGH_TEMP_KEY);
                     Log.d(getClass().getSimpleName() + "===D", "highTemp : " + highTemp);
+                    watchFace.setHighTemp(highTemp);
                 }
 
                 if (dataMap.containsKey(WatchFaceSyncCommons.LOW_TEMP_KEY)) {
                     double lowTemp = dataMap.getDouble(WatchFaceSyncCommons.LOW_TEMP_KEY);
                     Log.d(getClass().getSimpleName() + "===D", "lowTemp : " + lowTemp);
+                    watchFace.setLowTemp(lowTemp);
                 }
 
+                if (dataMap.containsKey(WatchFaceSyncCommons.WEATHER_IMAGE_KEY)) {
+                    DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+                    Asset imageAsset = dataMapItem.getDataMap().getAsset(WatchFaceSyncCommons.WEATHER_IMAGE_KEY);
+                    bitmap = loadBitmapFromAsset(imageAsset);
+                    watchFace.setWeatherImageBitmap(bitmap);
+                }
             }
         }
+
+
+        public Bitmap loadBitmapFromAsset(Asset asset) {
+            if (asset == null) {
+                throw new IllegalArgumentException("Asset must be non-null");
+            }
+            long TIME = 1000;
+            ConnectionResult result =
+                    googleApiClient.blockingConnect(TIME, TimeUnit.MILLISECONDS);
+            if (!result.isSuccess()) {
+                return null;
+            }
+//             convert asset into a file descriptor and block until it's ready
+            InputStream assetInputStream = Wearable.DataApi.getFdForAsset(
+                    googleApiClient, asset).await().getInputStream();
+            googleApiClient.disconnect();
+
+            if (assetInputStream == null) {
+                Log.w(TAG, "Requested an unknown Asset.");
+                return null;
+            }
+            // decode the stream into a bitmap
+            return BitmapFactory.decodeStream(assetInputStream);
+        }
+
+
+
 
         @Override
         public void onConnectionSuspended(int i) {
