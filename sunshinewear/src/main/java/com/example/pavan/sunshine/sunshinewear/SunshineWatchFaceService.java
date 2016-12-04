@@ -72,6 +72,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
     private static final int MSG_UPDATE_TIME = 0;
     private Bitmap bitmap;
     private Asset imageAsset;
+    private boolean processImage = false;
 
     @Override
     public Engine onCreateEngine() {
@@ -105,6 +106,18 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         private static final String TAG = "SunshineEngine";
 
         private SunshineWatchFace watchFace;
+        private Handler timeTick;
+        private final Runnable timeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                onSecondTick();
+
+                if (isVisible() && !isInAmbientMode())
+                    timeTick.postDelayed(this, TICK_PERIOD_MILLIS);
+
+            }
+        };
+        private GoogleApiClient googleApiClient;
         private final DataApi.DataListener onDataChangedListener = new DataApi.DataListener() {
             @Override
             public void onDataChanged(DataEventBuffer dataEventBuffer) {
@@ -128,18 +141,6 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                 invalidateIfNecessary();
             }
         };
-        private Handler timeTick;
-        private final Runnable timeRunnable = new Runnable() {
-            @Override
-            public void run() {
-                onSecondTick();
-
-                if (isVisible() && !isInAmbientMode())
-                    timeTick.postDelayed(this, TICK_PERIOD_MILLIS);
-
-            }
-        };
-        private GoogleApiClient googleApiClient;
         private BroadcastReceiver timeZoneChangedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -168,10 +169,8 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
-
-//            bitmap = loadBitmapFromAsset(imageAsset);
-
         }
+
 
         private void startTimerIfNecessary() {
             timeTick.removeCallbacks(timeRunnable);
@@ -222,6 +221,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         public void onDraw(Canvas canvas, Rect bounds) {
             super.onDraw(canvas, bounds);
             watchFace.draw(canvas, bounds);
+
         }
 
         @Override
@@ -288,11 +288,11 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     watchFace.setLowTemp(lowTemp);
                 }
 
-//                if (dataMap.containsKey(WatchFaceSyncCommons.WEATHER_IMAGE_KEY)) {
-//                    DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-//                    imageAsset = dataMapItem.getDataMap().getAsset(WatchFaceSyncCommons.WEATHER_IMAGE_KEY);
-////                    bitmap = loadBitmapFromAsset(imageAsset);
-//                }
+                if (dataMap.containsKey(WatchFaceSyncCommons.WEATHER_IMAGE_KEY)) {
+                    DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
+                    imageAsset = dataMapItem.getDataMap().getAsset(WatchFaceSyncCommons.WEATHER_IMAGE_KEY);
+                    new imageProcessingTask().execute(imageAsset, googleApiClient);
+                }
             }
         }
 
@@ -316,6 +316,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                 Log.w(TAG, "Requested an unknown Asset.");
                 return null;
             }
+            Log.d(TAG, "processed image");
             // decode the stream into a bitmap
             return BitmapFactory.decodeStream(assetInputStream);
         }

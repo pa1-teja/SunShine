@@ -25,8 +25,9 @@ public class SunshineWatchFace {
     private static final String DATE_FORMAT = "MM/dd/yyyy";
     private static final int DATE_AND_TIME_DEFAULT_COLOR = Color.WHITE;
     private static final int BACKGROUND_DEFAULT_COLOR = Color.BLACK;
-    private final Paint timePaint, datePaint, backgroundPaint, lowTempPaint, hightempPaint, linePaint;
-    private final Time time;
+    public Canvas canvas;
+    private Paint timePaint, datePaint, backgroundPaint, lowTempPaint, hightempPaint, linePaint, imagePaint;
+    private Time time;
     private String TAG = getClass().getSimpleName();
     private boolean shouldShowSeconds = true;
     private int backgroundColor = BACKGROUND_DEFAULT_COLOR;
@@ -36,8 +37,11 @@ public class SunshineWatchFace {
     private Bitmap weatherImageBitmap;
     private Date date;
 
+    SunshineWatchFace() {
+    }
+
     SunshineWatchFace(Paint timePaint, Paint datePaint, Paint backgroundPaint, Time time,
-                      Paint hightempPaint, Paint lowTempPaint, Paint linePaint) {
+                      Paint hightempPaint, Paint lowTempPaint, Paint linePaint, Paint imagePaint) {
 
         this.timePaint = timePaint;
         this.datePaint = datePaint;
@@ -46,6 +50,7 @@ public class SunshineWatchFace {
         this.hightempPaint = hightempPaint;
         this.lowTempPaint = lowTempPaint;
         this.linePaint = linePaint;
+        this.imagePaint = imagePaint;
     }
 
     public static SunshineWatchFace newInstance(Context context) {
@@ -72,7 +77,7 @@ public class SunshineWatchFace {
 
         Paint lowTempPaint = new Paint();
         lowTempPaint.setColor(Color.WHITE);
-        lowTempPaint.setColor(30);
+        lowTempPaint.setTextSize(30);
         Typeface lowTempTypeface = lowTempPaint.getTypeface();
         Typeface lowTempTypefacee = Typeface.create(lowTempTypeface, Typeface.BOLD);
         lowTempPaint.setTypeface(lowTempTypefacee);
@@ -80,8 +85,12 @@ public class SunshineWatchFace {
         Paint linePaint = new Paint();
         linePaint.setColor(Color.WHITE);
 
-        return new SunshineWatchFace(timePaint, datePaint, backgroundPaint, new Time(), hightempPaint, lowTempPaint, linePaint);
+        Paint imagePaint = new Paint();
+
+
+        return new SunshineWatchFace(timePaint, datePaint, backgroundPaint, new Time(), hightempPaint, lowTempPaint, linePaint, imagePaint);
     }
+
 
     public void draw(Canvas canvas, Rect bounds) {
         time.setToNow();
@@ -118,17 +127,33 @@ public class SunshineWatchFace {
 
         float highTempXOffset = computeHighTempXOffset(highTemp, hightempPaint, bounds);
         float highTempYOffset = computeHighTempYOffset(highTemp, hightempPaint, bounds);
-        canvas.drawText(String.valueOf(highTemp), highTempXOffset, highTempYOffset, hightempPaint);
+        canvas.drawText(String.valueOf(highTemp) + "\u00b0", highTempXOffset, highTempYOffset, hightempPaint);
 
         float lowTempXOffset = computeLowTempXOffset(lowTemp, lowTempPaint, bounds);
         float lowTempYOffset = computeLowTempYOffset(lowTemp, lowTempPaint, bounds);
-        canvas.drawText(String.valueOf(lowTemp), lowTempXOffset, lowTempYOffset, lowTempPaint);
+        canvas.drawText(String.valueOf(lowTemp) + "\u00b0", lowTempXOffset, lowTempYOffset, lowTempPaint);
 
         canvas.drawLine(130.0f, 160.0f, 180.0f, 160.0f, linePaint);
+
+
+        setCanvas(canvas);
+    }
+
+    public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+    }
+
+    public void drawImageOnCanvas() {
+        canvas.drawBitmap(weatherImageBitmap,
+                R.dimen.digital_x_offset_round, R.dimen.digital_y_offset, imagePaint);
+    }
+
+    public void setWeatherImageBitmap(Bitmap weatherImageBitmap) {
+        this.weatherImageBitmap = weatherImageBitmap;
     }
 
     private float computeLowTempXOffset(double lowTemp, Paint paint, Rect lowTempBounds) {
-        float centerX = 180.0f;
+        float centerX = 220.0f;
         float textLength = paint.measureText(String.valueOf(lowTemp));
         return centerX - (textLength / 5.0f);
     }
@@ -244,7 +269,6 @@ public class SunshineWatchFace {
         month = month.substring(0, 3);
         return month;
     }
-
 }
 
 

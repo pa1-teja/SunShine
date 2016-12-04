@@ -38,6 +38,12 @@ public class HighLowTempSender implements GoogleApiClient.ConnectionCallbacks,
     private PutDataMapRequest mapRequest;
     private PutDataRequest putDataRequest;
 
+    private static Asset createAssetFromBitmap(Bitmap bitmap) {
+        final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
+        return Asset.createFromBytes(byteStream.toByteArray());
+    }
+
     public void pickHighLowTempAndImage(double highTemp, double lowTemp, Context context, Bitmap bitmap) {
 
         googleApiClient = new GoogleApiClient.Builder(context)
@@ -46,8 +52,9 @@ public class HighLowTempSender implements GoogleApiClient.ConnectionCallbacks,
                 .addApi(Wearable.API)
                 .build();
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        googleApiClient.connect();
+
+        Asset asset = createAssetFromBitmap(bitmap);
 
         mapRequest = PutDataMapRequest.create(WatchFaceSyncCommons.HIGH_LOW_TEMP_PATH);
 
@@ -56,11 +63,9 @@ public class HighLowTempSender implements GoogleApiClient.ConnectionCallbacks,
         mapRequest.getDataMap().putDouble(WatchFaceSyncCommons.HIGH_TEMP_KEY, highTemp);
         mapRequest.getDataMap().putDouble(WatchFaceSyncCommons.LOW_TEMP_KEY, lowTemp);
 
-        mapRequest.getDataMap().putAsset(WatchFaceSyncCommons.WEATHER_IMAGE_KEY,
-                Asset.createFromBytes(byteArrayOutputStream.toByteArray()));
+        mapRequest.getDataMap().putAsset(WatchFaceSyncCommons.WEATHER_IMAGE_KEY, asset);
 
 
-        googleApiClient.connect();
         putDataRequest = mapRequest.asPutDataRequest();
         Wearable.DataApi.putDataItem(googleApiClient, putDataRequest);
 
