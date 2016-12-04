@@ -153,8 +153,9 @@ public class SunshineWatchFace {
     }
 
     public Bitmap createBitmapFromDrawable(Resources resources, int artResourceId) {
+        int drawable = Utility.getArtResourceForWeatherCondition(artResourceId);
         Bitmap weatherImageBitmap = BitmapFactory.decodeResource(resources,
-                Utility.getArtResourceForWeatherCondition(artResourceId));
+                drawable);
         if (weatherImageBitmap == null)
             Log.d(TAG, "bit map is null");
         return weatherImageBitmap;
