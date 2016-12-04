@@ -1,13 +1,16 @@
 package com.example.pavan.sunshine.sunshinewear;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.text.format.Time;
+import android.util.Log;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -36,9 +39,8 @@ public class SunshineWatchFace {
     private int lowTemp;
     private Bitmap weatherImageBitmap;
     private Date date;
-
-    SunshineWatchFace() {
-    }
+    private boolean imageAvailable = false;
+    private int artResourseId;
 
     SunshineWatchFace(Paint timePaint, Paint datePaint, Paint backgroundPaint, Time time,
                       Paint hightempPaint, Paint lowTempPaint, Paint linePaint, Paint imagePaint) {
@@ -86,15 +88,25 @@ public class SunshineWatchFace {
         linePaint.setColor(Color.WHITE);
 
         Paint imagePaint = new Paint();
+        imagePaint.setStyle(Paint.Style.FILL);
+//        canvas.drawRect(mRedPaddleRect, mPaint);
 
 
         return new SunshineWatchFace(timePaint, datePaint, backgroundPaint, new Time(), hightempPaint, lowTempPaint, linePaint, imagePaint);
     }
 
+    public int getArtResourseId() {
+        return artResourseId;
+    }
 
-    public void draw(Canvas canvas, Rect bounds) {
+    public void setArtResourseId(int artResourseId) {
+        this.artResourseId = artResourseId;
+    }
+
+    public void draw(Canvas canvas, Rect bounds, Bitmap weatherImageBitmap) {
         time.setToNow();
         canvas.drawRect(0, 0, bounds.width(), bounds.height(), backgroundPaint);
+
 
         String timeText = String.format(TIME_FORMAT_WITHOUT_SECONDS,
                 time.hour, time.minute);
@@ -136,21 +148,18 @@ public class SunshineWatchFace {
         canvas.drawLine(130.0f, 160.0f, 180.0f, 160.0f, linePaint);
 
 
-        setCanvas(canvas);
-    }
-
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
-    }
-
-    public void drawImageOnCanvas() {
         canvas.drawBitmap(weatherImageBitmap,
                 R.dimen.digital_x_offset_round, R.dimen.digital_y_offset, imagePaint);
     }
 
-    public void setWeatherImageBitmap(Bitmap weatherImageBitmap) {
-        this.weatherImageBitmap = weatherImageBitmap;
+    public Bitmap createBitmapFromDrawable(Resources resources, int artResourceId) {
+        Bitmap weatherImageBitmap = BitmapFactory.decodeResource(resources,
+                Utility.getArtResourceForWeatherCondition(artResourceId));
+        if (weatherImageBitmap == null)
+            Log.d(TAG, "bit map is null");
+        return weatherImageBitmap;
     }
+
 
     private float computeLowTempXOffset(double lowTemp, Paint paint, Rect lowTempBounds) {
         float centerX = 220.0f;

@@ -565,7 +565,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                                     .setContentTitle(title)
                                     .setContentText(contentText);
 
-                    highLowTempSender.pickHighLowTempAndImage(high, low, context, largeIcon);
+                    highLowTempSender.pickHighLowTempAndImage(high, low, context, weatherId);
 
 
                     // Make something interesting happen when the user clicks on the notification.

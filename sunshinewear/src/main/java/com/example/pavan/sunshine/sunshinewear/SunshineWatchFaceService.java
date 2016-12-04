@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -61,6 +62,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
     private static final Typeface NORMAL_TYPEFACE =
             Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
     private static final long TICK_PERIOD_MILLIS = TimeUnit.SECONDS.toMillis(1);
+
     /**
      * Update rate in milliseconds for interactive mode. We update once a second since seconds are
      * displayed in interactive mode.
@@ -71,7 +73,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
      */
     private static final int MSG_UPDATE_TIME = 0;
     private Bitmap bitmap;
-    private Asset imageAsset;
+    private int imageResourceId;
     private boolean processImage = false;
 
     @Override
@@ -105,19 +107,8 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         private static final String ACTION_TIME_ZONE = "time-zone";
         private static final String TAG = "SunshineEngine";
 
+        private Resources resources = getResources();
         private SunshineWatchFace watchFace;
-        private Handler timeTick;
-        private final Runnable timeRunnable = new Runnable() {
-            @Override
-            public void run() {
-                onSecondTick();
-
-                if (isVisible() && !isInAmbientMode())
-                    timeTick.postDelayed(this, TICK_PERIOD_MILLIS);
-
-            }
-        };
-        private GoogleApiClient googleApiClient;
         private final DataApi.DataListener onDataChangedListener = new DataApi.DataListener() {
             @Override
             public void onDataChanged(DataEventBuffer dataEventBuffer) {
@@ -141,6 +132,18 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                 invalidateIfNecessary();
             }
         };
+        private Handler timeTick;
+        private final Runnable timeRunnable = new Runnable() {
+            @Override
+            public void run() {
+                onSecondTick();
+
+                if (isVisible() && !isInAmbientMode())
+                    timeTick.postDelayed(this, TICK_PERIOD_MILLIS);
+
+            }
+        };
+        private GoogleApiClient googleApiClient;
         private BroadcastReceiver timeZoneChangedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -220,8 +223,9 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             super.onDraw(canvas, bounds);
-            watchFace.draw(canvas, bounds);
 
+            bitmap = watchFace.createBitmapFromDrawable(resources, imageResourceId);
+            watchFace.draw(canvas, bounds, bitmap);
         }
 
         @Override
@@ -290,8 +294,9 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
 
                 if (dataMap.containsKey(WatchFaceSyncCommons.WEATHER_IMAGE_KEY)) {
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
-                    imageAsset = dataMapItem.getDataMap().getAsset(WatchFaceSyncCommons.WEATHER_IMAGE_KEY);
-                    new imageProcessingTask().execute(imageAsset, googleApiClient);
+                    imageResourceId = dataMapItem.getDataMap().getInt(WatchFaceSyncCommons.WEATHER_IMAGE_KEY);
+                    Log.d(getClass().getSimpleName() + "===D", "imageResourceId : " + imageResourceId);
+
                 }
             }
         }

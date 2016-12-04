@@ -1,7 +1,6 @@
 package com.example.pavan.sunshine.SunshineWearable;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,13 +9,10 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * Created by KVR on 11/30/2016.
@@ -38,13 +34,8 @@ public class HighLowTempSender implements GoogleApiClient.ConnectionCallbacks,
     private PutDataMapRequest mapRequest;
     private PutDataRequest putDataRequest;
 
-    private static Asset createAssetFromBitmap(Bitmap bitmap) {
-        final ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
-        return Asset.createFromBytes(byteStream.toByteArray());
-    }
 
-    public void pickHighLowTempAndImage(double highTemp, double lowTemp, Context context, Bitmap bitmap) {
+    public void pickHighLowTempAndImage(double highTemp, double lowTemp, Context context, int artResourseId) {
 
         googleApiClient = new GoogleApiClient.Builder(context)
                 .addConnectionCallbacks(this)
@@ -54,8 +45,6 @@ public class HighLowTempSender implements GoogleApiClient.ConnectionCallbacks,
 
         googleApiClient.connect();
 
-        Asset asset = createAssetFromBitmap(bitmap);
-
         mapRequest = PutDataMapRequest.create(WatchFaceSyncCommons.HIGH_LOW_TEMP_PATH);
 
         Log.e(TAG_SUNSHINE_HIGH_LOW_TEMP, String.valueOf(highTemp) + " " + String.valueOf(lowTemp));
@@ -63,7 +52,7 @@ public class HighLowTempSender implements GoogleApiClient.ConnectionCallbacks,
         mapRequest.getDataMap().putDouble(WatchFaceSyncCommons.HIGH_TEMP_KEY, highTemp);
         mapRequest.getDataMap().putDouble(WatchFaceSyncCommons.LOW_TEMP_KEY, lowTemp);
 
-        mapRequest.getDataMap().putAsset(WatchFaceSyncCommons.WEATHER_IMAGE_KEY, asset);
+        mapRequest.getDataMap().putInt(WatchFaceSyncCommons.WEATHER_IMAGE_KEY, artResourseId);
 
 
         putDataRequest = mapRequest.asPutDataRequest();
