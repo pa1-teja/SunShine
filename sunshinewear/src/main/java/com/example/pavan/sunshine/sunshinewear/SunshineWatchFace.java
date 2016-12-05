@@ -46,6 +46,7 @@ public class SunshineWatchFace {
     private BitmapDrawable result;
     private BitmapDrawable bmd;
     private Context context;
+    private Rect src, dst;
 
     SunshineWatchFace(Paint timePaint, Paint datePaint, Paint backgroundPaint, Time time,
                       Paint hightempPaint, Paint lowTempPaint, Paint linePaint, Paint imagePaint) {
@@ -161,8 +162,10 @@ public class SunshineWatchFace {
 
         canvas.drawLine(130.0f, 160.0f, 180.0f, 160.0f, linePaint);
 
-        if (bmd != null)
+        if (bmd != null) {
+
             canvas.drawBitmap(bmd.getBitmap(), 80.0f, 130.0f, imagePaint);
+        }
     }
 
 
@@ -190,6 +193,10 @@ public class SunshineWatchFace {
         matrix.postScale(scaleWidth, scaleHeight);
         // rotate the Bitmap
         matrix.postRotate(45);
+
+        src = new Rect(0, 0, weatherImageBitmap.getWidth() - 1, weatherImageBitmap.getHeight() - 1);
+        dst = new Rect(0, 0, width - 1, height - 1);
+
 
         // recreate the new Bitmap
         Bitmap resizedBitmap = Bitmap.createBitmap(weatherImageBitmap, 0, 0,
