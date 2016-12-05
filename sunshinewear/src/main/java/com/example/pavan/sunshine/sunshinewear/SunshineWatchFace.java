@@ -164,7 +164,8 @@ public class SunshineWatchFace {
 
         if (bmd != null) {
 
-            canvas.drawBitmap(bmd.getBitmap(), 80.0f, 130.0f, imagePaint);
+            canvas.drawBitmap(Bitmap.createScaledBitmap(weatherImageBitmap, canvas.getWidth() / 5, canvas.getHeight() / 5, true),
+                    60.0f, 170.0f, imagePaint);
         }
     }
 
@@ -173,7 +174,7 @@ public class SunshineWatchFace {
 
         Log.d(TAG, "drawable  : " + Utility.getArtResourceForWeatherCondition(artResourceId) + " artResID : " + artResourceId);
 
-        Bitmap weatherImageBitmap = BitmapFactory.decodeResource(resources,
+        weatherImageBitmap = BitmapFactory.decodeResource(resources,
                 Utility.getArtResourceForWeatherCondition(artResourceId));
         // load the origial BitMap (500 x 500 px)
 
@@ -204,6 +205,7 @@ public class SunshineWatchFace {
 
         // make a Drawable from Bitmap to allow to set the BitMap
         // to the ImageView, ImageButton or what ever
+
         bmd = new BitmapDrawable(resizedBitmap);
 
 
