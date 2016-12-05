@@ -163,6 +163,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     .setShowSystemUiTime(false)
                     .build());
 
+
             timeTick = new Handler(Looper.myLooper());
             startTimerIfNecessary();
 
@@ -172,6 +173,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
+//            watchFace.setContext(getBaseContext());''''
         }
 
 
@@ -224,8 +226,8 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         public void onDraw(Canvas canvas, Rect bounds) {
             super.onDraw(canvas, bounds);
 
-            bitmap = watchFace.createBitmapFromDrawable(resources, imageResourceId);
-            watchFace.draw(canvas, bounds, bitmap);
+            watchFace.draw(canvas, bounds);
+
         }
 
         @Override
@@ -256,7 +258,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
         @Override
         public void onConnected(@Nullable Bundle bundle) {
             Log.d(TAG, "connected GoogleAPI");
-
+            watchFace.setContext(getBaseContext());
             Log.d(TAG, "Bundle : " + bundle);
 
             Wearable.DataApi.addListener(googleApiClient, onDataChangedListener);
@@ -296,7 +298,7 @@ public class SunshineWatchFaceService extends CanvasWatchFaceService {
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItem);
                     imageResourceId = dataMapItem.getDataMap().getInt(WatchFaceSyncCommons.WEATHER_IMAGE_KEY);
                     Log.d(getClass().getSimpleName() + "===D", "imageResourceId : " + imageResourceId);
-
+                    watchFace.createBitmapFromDrawable(resources, imageResourceId);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.example.pavan.sunshine.sunshinewear;
 
+import android.util.Log;
+
 /**
  * Created by pavan on 6/13/2016.
  */
@@ -15,6 +17,8 @@ public class Utility {
     public static int getArtResourceForWeatherCondition(int weatherId) {
         // Based on weather code data found at:
         // http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
+        Log.e("utility", String.valueOf(weatherId));
+
         if (weatherId >= 200 && weatherId <= 232) {
             return R.drawable.art_storm;
         } else if (weatherId >= 300 && weatherId <= 321) {

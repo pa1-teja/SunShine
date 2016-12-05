@@ -6,9 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -41,6 +43,9 @@ public class SunshineWatchFace {
     private Date date;
     private boolean imageAvailable = false;
     private int artResourseId;
+    private BitmapDrawable result;
+    private BitmapDrawable bmd;
+    private Context context;
 
     SunshineWatchFace(Paint timePaint, Paint datePaint, Paint backgroundPaint, Time time,
                       Paint hightempPaint, Paint lowTempPaint, Paint linePaint, Paint imagePaint) {
@@ -92,7 +97,16 @@ public class SunshineWatchFace {
 //        canvas.drawRect(mRedPaddleRect, mPaint);
 
 
+
         return new SunshineWatchFace(timePaint, datePaint, backgroundPaint, new Time(), hightempPaint, lowTempPaint, linePaint, imagePaint);
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public int getArtResourseId() {
@@ -103,7 +117,7 @@ public class SunshineWatchFace {
         this.artResourseId = artResourseId;
     }
 
-    public void draw(Canvas canvas, Rect bounds, Bitmap weatherImageBitmap) {
+    public void draw(Canvas canvas, Rect bounds) {
         time.setToNow();
         canvas.drawRect(0, 0, bounds.width(), bounds.height(), backgroundPaint);
 
@@ -147,18 +161,49 @@ public class SunshineWatchFace {
 
         canvas.drawLine(130.0f, 160.0f, 180.0f, 160.0f, linePaint);
 
-
-        canvas.drawBitmap(weatherImageBitmap,
-                R.dimen.digital_x_offset_round, R.dimen.digital_y_offset, imagePaint);
+        if (bmd != null)
+            canvas.drawBitmap(bmd.getBitmap(), 80.0f, 130.0f, imagePaint);
     }
 
-    public Bitmap createBitmapFromDrawable(Resources resources, int artResourceId) {
-        int drawable = Utility.getArtResourceForWeatherCondition(artResourceId);
+
+    public void createBitmapFromDrawable(Resources resources, int artResourceId) {
+
+        Log.d(TAG, "drawable  : " + Utility.getArtResourceForWeatherCondition(artResourceId) + " artResID : " + artResourceId);
+
         Bitmap weatherImageBitmap = BitmapFactory.decodeResource(resources,
-                drawable);
+                Utility.getArtResourceForWeatherCondition(artResourceId));
+        // load the origial BitMap (500 x 500 px)
+
+
+        int width = weatherImageBitmap.getWidth();
+        int height = weatherImageBitmap.getHeight();
+        int newWidth = 200;
+        int newHeight = 200;
+
+        // calculate the scale - in this case = 0.4f
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        // createa matrix for the manipulation
+        Matrix matrix = new Matrix();
+        // resize the bit map
+        matrix.postScale(scaleWidth, scaleHeight);
+        // rotate the Bitmap
+        matrix.postRotate(45);
+
+        // recreate the new Bitmap
+        Bitmap resizedBitmap = Bitmap.createBitmap(weatherImageBitmap, 0, 0,
+                newWidth, newHeight, matrix, true);
+
+        // make a Drawable from Bitmap to allow to set the BitMap
+        // to the ImageView, ImageButton or what ever
+        bmd = new BitmapDrawable(resizedBitmap);
+
+
+
         if (weatherImageBitmap == null)
             Log.d(TAG, "bit map is null");
-        return weatherImageBitmap;
+
     }
 
 

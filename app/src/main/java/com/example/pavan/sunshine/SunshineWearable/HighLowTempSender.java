@@ -47,7 +47,7 @@ public class HighLowTempSender implements GoogleApiClient.ConnectionCallbacks,
 
         mapRequest = PutDataMapRequest.create(WatchFaceSyncCommons.HIGH_LOW_TEMP_PATH);
 
-        Log.e(TAG_SUNSHINE_HIGH_LOW_TEMP, String.valueOf(highTemp) + " " + String.valueOf(lowTemp));
+        Log.e(TAG_SUNSHINE_HIGH_LOW_TEMP, String.valueOf(highTemp) + " " + String.valueOf(lowTemp) + " " + artResourseId);
 
         mapRequest.getDataMap().putDouble(WatchFaceSyncCommons.HIGH_TEMP_KEY, highTemp);
         mapRequest.getDataMap().putDouble(WatchFaceSyncCommons.LOW_TEMP_KEY, lowTemp);
