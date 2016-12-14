@@ -60,13 +60,13 @@ Coming back to the Main Screen from the Settings screen. The user will be naviga
 <img src="https://github.com/pa1-teja/SunShine/blob/master/app/src/main/res/drawable/tablet_screen.png" width="500" height = "350">
 <br/>
 
-The app also provides support to the round and square Android wear devices. Users can stay informed about the High and Low temperatures along with weather image which describes the type of weather on that particular day, on the wearable device's watch face.
-Round watch                         Square Watch
+The app also provides support to the round and square Android wear devices. Users can stay informed about the High and Low temperatures along with weather image which describes the type of weather on that particular day, on the wearable device's watch face. <br/>
+Round watch  \t \t                       Square Watch
  <br/>
  
-<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/round%20watch%20face.png" width="200" height = "250">
-Square Watch
-<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/square%20watch%20face.png" width="200" height = "250">
+<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/round%20watch%20face.png" width="220" height = "270">
+
+<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/square%20watch%20face.png" width="220" height = "270">
 <br/>
  
  ## Project Details
