@@ -60,5 +60,37 @@ Coming back to the Main Screen from the Settings screen. The user will be naviga
 <img src="https://github.com/pa1-teja/SunShine/blob/master/app/src/main/res/drawable/tablet_screen.png" width="500" height = "350">
 <br/>
 
+The app also provides support to the round and square Android wear devices. Users can stay informed about the High and Low temperatures along with weather image which describes the type of weather on that particular day, on the wearable device's watch face.
+
+ <br/>
+ Round watch
+<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/round%20watch%20face.png" width="200" height = "350">
+Square Watch
+<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/square%20watch%20face.png" width="200" height = "350">
+<br/>
  
+ ## Project Details
+ The app checks for the given location and based on that, the app makes an API call when the app is launched. The app fetches movies details from the [OpenWeatherMap API](https://openweathermap.org/appid) and store those details in the SQLite Database using COntent Providers.
  
+ ### Dependencies used in the Project
+ 
+ Below are the dependencies used in the project for mobile : 
+ 
+`com.github.bumptech.glide:glide:3.5.2` <br/>
+`com.android.support:support-annotations:23.2.0` <br/>
+`com.android.support:gridlayout-v7:23.2.0` <br/>
+`com.android.support:cardview-v7:23.2.0` <br/>
+`com.android.support:appcompat-v7:23.2.0` <br/>
+`com.android.support:design:23.2.0` <br/>
+`com.android.support:recyclerview-v7:23.2.0` <br/>
+`com.google.android.apps.muzei:muzei-api:2.0` <br/>
+`com.google.android.gms:play-services-location:7.5.0` <br/>
+`com.google.android.apps.muzei:muzei-api:2.0` <br/>
+`com.google.android.gms:play-services:10.0.1` <br/>
+`com.google.android.gms:play-services-wearable:8.3.0` <br/>
+ 
+ Below are the dependencies used in the project for wearable :
+ 
+`com.google.android.support:wearable:2.0.0-alpha3` <br/>
+`com.google.android.gms:play-services-wearable:8.3.0` <br/>
+ `com.android.support:appcompat-v7:25.0.0` <br/>
