@@ -83,7 +83,7 @@ Round watch Square Watch
 ## Project Details
  The app checks for the given location and based on that, the app makes an API call when the app is launched. The app fetches movies details from the [OpenWeatherMap API](https://openweathermap.org/appid) and store those details in the SQLite Database using COntent Providers.
  
- ### Dependencies used in the Project
+### Dependencies used in the Project
  
  Below are the dependencies used in the project for mobile : 
  
