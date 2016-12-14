@@ -77,9 +77,10 @@ Round watch Square Watch
     <img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/square%20watch%20face.png" width="220" height = "270">
     </td> 
 </table>
-<br/>
- 
- ## Project Details
+
+<br/> 
+
+## Project Details
  The app checks for the given location and based on that, the app makes an API call when the app is launched. The app fetches movies details from the [OpenWeatherMap API](https://openweathermap.org/appid) and store those details in the SQLite Database using COntent Providers.
  
  ### Dependencies used in the Project
@@ -103,4 +104,4 @@ Round watch Square Watch
  
 `com.google.android.support:wearable:2.0.0-alpha3` <br/>
 `com.google.android.gms:play-services-wearable:8.3.0` <br/>
- `com.android.support:appcompat-v7:25.0.0` <br/>
+`com.android.support:appcompat-v7:25.0.0` <br/>
