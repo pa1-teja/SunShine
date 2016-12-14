@@ -105,3 +105,13 @@ Round watch Square Watch
 `com.google.android.support:wearable:2.0.0-alpha3` <br/>
 `com.google.android.gms:play-services-wearable:8.3.0` <br/>
 `com.android.support:appcompat-v7:25.0.0` <br/>
+
+###Install
+
+To install the app on your device, there are three ways possible:
+
+1.) Download the .apk file from the build directory and copy it on to your Android device and [Install it](http://www.greenbot.com/article/2452614/how-to-sideload-an-app-onto-your-android-phone-or-tablet.html).
+
+2.) Import the project into the Android Studio IDE and hit the play button to install the app via ADB.
+
+3.) Follow the commands to install the app via ADB using [Command Prompt](http://howto.highonandroid.com/android-how-to-tutorials/how-to-install-apk-to-your-android-device-via-adb-commands/). 
