@@ -61,7 +61,7 @@ Coming back to the Main Screen from the Settings screen. The user will be naviga
 <br/>
 
 The app also provides support to the round and square Android wear devices. Users can stay informed about the High and Low temperatures along with weather image which describes the type of weather on that particular day, on the wearable device's watch face. <br/>
-Round watch  \t \t                       Square Watch
+Round watch  &nbsp &nbsp Square Watch
  <br/>
  
 <img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/round%20watch%20face.png" width="220" height = "270">
