@@ -119,4 +119,5 @@ To install the app on your device, there are three ways possible:
 ## Version Compatibility
 
 The App supports all the Android devices and Tablets which runs Android JELLY BEAN and above versions. i.e API 17 and above.
+<br/>
 **Note:** To use the wearable device along with the mobile app. Both the devices should run on Android LOLLIPOP (i.e. API 21) and above
