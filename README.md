@@ -57,7 +57,7 @@ Coming back to the Main Screen from the Settings screen. The user will be naviga
 
  The app also supports all the Android tablets where the users have all the 14 days of temperature data on the left and the user can tap on any of the list items to see the detailed information on the right side of the screen.
   <br/>
-<img src="https://github.com/pa1-teja/SunShine/blob/master/app/src/main/res/drawable/tablet_screen.png" width="200" height = "350">
+<img src="https://github.com/pa1-teja/SunShine/blob/master/app/src/main/res/drawable/tablet_screen.png" width="500" height = "350">
 <br/>
 
  
