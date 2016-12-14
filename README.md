@@ -115,3 +115,8 @@ To install the app on your device, there are three ways possible:
 2.) Import the project into the Android Studio IDE and hit the play button to install the app via ADB.
 
 3.) Follow the commands to install the app via ADB using [Command Prompt](http://howto.highonandroid.com/android-how-to-tutorials/how-to-install-apk-to-your-android-device-via-adb-commands/). 
+
+## Version Compatibility
+
+The App supports all the Android devices and Tablets which runs Android JELLY BEAN and above versions. i.e API 17 and above.
+**Note:** To use the wearable device along with the mobile app. Both the devices should run on Android LOLLIPOP (i.e. API 21) and above
