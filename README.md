@@ -64,9 +64,19 @@ The app also provides support to the round and square Android wear devices. User
 Round watch Square Watch
  <br/>
  
-<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/round%20watch%20face.png" width="220" height = "270">
-
-<img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/square%20watch%20face.png" width="220" height = "270">
+ <table style="width:100%">
+  <tr>
+    <th>Round Watch</th>
+    <th>Square Watch</th> 
+  </tr>
+  <tr>
+    <td>
+    <img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/round%20watch%20face.png" width="220" height = "270">
+    </td>
+    <td>
+    <img src="https://github.com/pa1-teja/SunShine/blob/master/sunshinewear/src/main/res/drawable-nodpi/square%20watch%20face.png" width="220" height = "270">
+    </td> 
+</table>
 <br/>
  
  ## Project Details
